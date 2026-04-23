@@ -1,0 +1,15 @@
+{
+  "name": "djmgr-survey",
+  "version": "1.0.0",
+  "description": "DJMGR DJ career survey and reporting dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  }
+}

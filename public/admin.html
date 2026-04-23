@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJMGR — Survey Results</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #F7F7F5;
+    --surface:  #FFFFFF;
+    --surface2: #F0F0EE;
+    --border:   #E0E0DE;
+    --text:     #1A1A1A;
+    --muted:    #666;
+    --hint:     #999;
+    --amber:    #EF9F27;
+    --amber-lo: rgba(239,159,39,0.1);
+    --green:    #1D9E75;
+    --blue:     #378ADD;
+    --purple:   #7F77DD;
+    --coral:    #D85A30;
+    --pink:     #D4537E;
+    --radius:   10px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── LOGIN ── */
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0D0D0D;
+  }
+  .login-card {
+    background: #181818;
+    border: 1px solid #2E2E2E;
+    border-radius: 14px;
+    padding: 40px;
+    width: 340px;
+    text-align: center;
+  }
+  .login-card .logo {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #EF9F27;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .login-card h2 { color: #F0F0F0; font-size: 18px; margin-bottom: 24px; }
+  .login-card input {
+    width: 100%;
+    padding: 10px 14px;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 7px;
+    color: #F0F0F0;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 12px;
+    font-family: inherit;
+  }
+  .login-card input:focus { border-color: #EF9F27; }
+  .login-btn {
+    width: 100%;
+    padding: 11px;
+    background: #EF9F27;
+    border: none;
+    border-radius: 7px;
+    color: #111;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .login-btn:hover { background: #d68e20; }
+  .login-err { color: #E24B4A; font-size: 12px; margin-top: 8px; }
+
+  /* ── DASHBOARD ── */
+  #dashboard { display: none; }
+
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 12px; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(--amber); text-transform: uppercase; }
+  .topbar h1 { font-size: 15px; font-weight: 500; color: var(--text); }
+  .topbar-actions { display: flex; gap: 8px; align-items: center; }
+
+  .btn {
+    padding: 7px 14px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    transition: all 0.12s;
+  }
+  .btn:hover { background: var(--surface2); }
+  .btn-amber { background: var(--amber); border-color: var(--amber); color: #111; font-weight: 500; }
+  .btn-amber:hover { background: #d68e20; border-color: #d68e20; }
+
+  .main { padding: 28px; max-width: 1100px; margin: 0 auto; }
+
+  /* ── METRIC CARDS ── */
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .metric-card .label { font-size: 11px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .metric-card .value { font-size: 28px; font-weight: 600; color: var(--text); }
+  .metric-card .sub { font-size: 12px; color: var(--hint); margin-top: 3px; }
+
+  /* ── CHART GRID ── */
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media (max-width: 700px) { .chart-grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .panel-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .panel-sub { font-size: 11px; color: var(--muted); margin-bottom: 16px; }
+  .chart-wrap { position: relative; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .tab {
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--muted);
+    font-family: inherit;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.12s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--amber); border-bottom-color: var(--amber); font-weight: 500; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── RESPONSE TABLE ── */
+  .resp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .resp-table th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+  .resp-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  .resp-table tr:hover td { background: var(--surface2); cursor: pointer; }
+  .resp-table tr:last-child td { border-bottom: none; }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--surface2);
+    color: var(--muted);
+  }
+
+  /* ── RESPONSE DETAIL MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal {
+    background: var(--surface);
+    border-radius: 12px;
+    width: 100%; max-width: 620px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 28px;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: none; font-size: 20px;
+    cursor: pointer; color: var(--muted); line-height: 1;
+  }
+  .modal h2 { font-size: 16px; margin-bottom: 20px; }
+  .detail-section { margin-bottom: 20px; }
+  .detail-section h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .detail-row { display: flex; gap: 12px; margin-bottom: 8px; font-size: 13px; }
+  .detail-key { flex: 0 0 160px; color: var(--muted); }
+  .detail-val { color: var(--text); flex: 1; }
+
+  /* ── KILLER QUOTES ── */
+  .quote-list { display: flex; flex-direction: column; gap: 12px; }
+  .quote-item {
+    padding: 14px 16px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border-left: 3px solid var(--amber);
+  }
+  .quote-dj { font-size: 12px; font-weight: 500; color: var(--amber); margin-bottom: 4px; }
+  .quote-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .quote-cat { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  /* ── LOADING ── */
+  .loading { text-align: center; padding: 60px; color: var(--muted); font-size: 14px; }
+
+  /* ── SORT INDICATOR ── */
+  .sort-indicator { opacity: 0.5; font-size: 10px; margin-left: 4px; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="logo">DJMGR</div>
+    <h2>Results dashboard</h2>
+    <input type="password" id="pw-input" placeholder="Admin password"
+      onkeydown="if(event.key==='Enter')login()">
+    <button class="login-btn" onclick="login()">Enter</button>
+    <p class="login-err" id="login-err"></p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="logo">DJMGR</span>
+      <h1>Survey results</h1>
+    </div>
+    <div class="topbar-actions">
+      <span id="last-updated" style="font-size:11px;color:var(--muted);margin-right:8px"></span>
+      <button class="btn" onclick="loadData()">Refresh</button>
+      <button class="btn btn-amber" onclick="exportCSV()">Export CSV</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="loading-state" class="loading">Loading responses...</div>
+    <div id="data-view" style="display:none">
+
+      <!-- METRIC CARDS -->
+      <div class="metrics" id="metrics"></div>
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('overview')">Overview</button>
+        <button class="tab" onclick="showTab('booking')">Booking & outreach</button>
+        <button class="tab" onclick="showTab('content')">Content & pricing</button>
+        <button class="tab" onclick="showTab('quotes')">Killer questions</button>
+        <button class="tab" onclick="showTab('responses')">All responses</button>
+      </div>
+
+      <!-- OVERVIEW TAB -->
+      <div id="tab-overview" class="tab-panel active">
+        <div class="chart-grid">
+          <div class="panel">
+            <div class="panel-title">Management status</div>
+            <div class="panel-sub">Breakdown of respondents by management type</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-mgmt"></canvas></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Market reach</div>
+            <div class="panel-sub">Specific markets vs global touring</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-market"></canvas></div>
+          </div>
+        </div>
+        <div class="panel" style="margin-bottom:16px">
+          <div class="panel-title">Feature ranking averages</div>
+          <div class="panel-sub">Lower average = ranked more important by respondents</div>
+          <div class="chart-wrap" style="height:220px"><canvas id="chart-features"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Current fee distribution</div>
+          <div class="panel-sub">What respondents are currently earning per gig</div>
+          <div class="chart-wrap" style="height:200px"><canvas id="chart-fees"></canvas></div>
+        </div>
+      </div>
+
+      <!-- BOOKING TAB -->
+      <div id="tab-booking" class="tab-panel">
+        <div class="chart-grid">
+          <div class="panel">
+            <div class="panel-title">Follow-up responsibility</div>
+            <div class="panel-sub">Who handles follow-ups on bookings</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-followup"></canvas></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Lost gigs from no follow-up</div>
+            <div class="panel-sub">How often missed follow-ups cost gigs</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-lostgigs"></canvas></div>
+          </div>
+        </div>
+        <div class="chart-grid">
+          <div class="panel">
+            <div class="panel-title">Sound clarity</div>
+            <div class="panel-sub">How clearly defined DJs feel their sound is</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-sound"></canvas></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Track analysis reaction</div>
+            <div class="panel-sub">Useful vs intrusive for identity-based track suggestions</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-trackanalysis"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENT & PRICING TAB -->
+      <div id="tab-content" class="tab-panel">
+        <div class="chart-grid">
+          <div class="panel">
+            <div class="panel-title">Content posting frequency</div>
+            <div class="panel-sub">How consistently DJs post gig content</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-posting"></canvas></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Auto-post trust</div>
+            <div class="panel-sub">Would DJs trust automated content posting</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-autopost"></canvas></div>
+          </div>
+        </div>
+        <div class="chart-grid">
+          <div class="panel">
+            <div class="panel-title">Data would change rate negotiation</div>
+            <div class="panel-sub">Would peer fee data change how they negotiate</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-ratedata"></canvas></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Who should pay for DJMGR</div>
+            <div class="panel-sub">DJ vs manager as likely buyer</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-whopays"></canvas></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Monthly value expectation</div>
+          <div class="panel-sub">What respondents think the tool is worth per month</div>
+          <div class="chart-wrap" style="height:180px"><canvas id="chart-monthly"></canvas></div>
+        </div>
+      </div>
+
+      <!-- KILLER QUESTIONS TAB -->
+      <div id="tab-quotes" class="tab-panel">
+        <div class="chart-grid" style="margin-bottom:20px">
+          <div class="panel">
+            <div class="panel-title">Killer feature category</div>
+            <div class="panel-sub">What category the #1 request falls into</div>
+            <div class="chart-wrap" style="height:200px"><canvas id="chart-killercat"></canvas></div>
+          </div>
+          <div class="panel" style="display:flex;flex-direction:column;justify-content:center">
+            <div class="panel-title" style="margin-bottom:12px">Category legend</div>
+            <div id="killer-legend" style="font-size:13px;line-height:2;color:var(--muted)"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">What they want built first</div>
+          <div class="panel-sub" style="margin-bottom:16px">Verbatim answers to the killer question</div>
+          <div class="quote-list" id="quotes-list"></div>
+        </div>
+      </div>
+
+      <!-- ALL RESPONSES TAB -->
+      <div id="tab-responses" class="tab-panel">
+        <div class="panel" style="padding:0;overflow:hidden">
+          <table class="resp-table" id="responses-table">
+            <thead>
+              <tr>
+                <th>DJ name</th>
+                <th>Age</th>
+                <th>Country</th>
+                <th>Management</th>
+                <th>Market</th>
+                <th>Submitted</th>
+              </tr>
+            </thead>
+            <tbody id="responses-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /data-view -->
+  </div><!-- /main -->
+</div><!-- /dashboard -->
+
+<!-- RESPONSE DETAIL MODAL -->
+<div id="modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+let adminPw = '';
+let allData = null;
+const charts = {};
+
+const CHART_COLORS = ['#EF9F27','#1D9E75','#378ADD','#D4537E','#7F77DD','#D85A30','#BA7517'];
+const MGMT_LABELS = { big_agency:'Big agency', small_agency:'Small agency', individual:'Individual', none:'No management' };
+const MARKET_LABELS = { specific:'Specific markets', global:'Global', '':'Unknown' };
+const FOLLOWUP_LABELS = { me:'Me', manager:'My manager', shared:'Shared', nobody:'Nobody' };
+const LOST_LABELS = { never:'Never', sometimes:'Sometimes', often:'Often', constantly:'Constantly' };
+const SOUND_LABELS = { very_clear:'Very clear', somewhat:'Somewhat', not_really:'Not really' };
+const TRACK_LABELS = { useful:'Useful', intrusive:'Intrusive', depends:'Depends' };
+const POST_LABELS = { never:'Never', rarely:'Rarely', sometimes:'Sometimes', consistently:'Consistently' };
+const AUTOPOST_LABELS = { yes:'Yes', with_approval:'With approval', no:'No' };
+const RATE_LABELS = { yes:'Yes', maybe:'Maybe', no:'Already know' };
+const PAYS_LABELS = { me:'I pay', manager:'Management', either:'Either', unsure:'Not sure' };
+const MONTHLY_LABELS = { 'Under €100':'<€100', '€100-€250':'€100-€250', '€250-€500':'€250-€500', '€500-€1,000':'€500-€1k', 'Over €1,000':'>€1k' };
+const KILLER_LABELS = { booking:'Getting booked', fees:'Raising fees', content:'Content', sound:'Sound & identity', logistics:'Logistics', data:'Data & visibility', other:'Other' };
+
+// ── LOGIN ──────────────────────────────────────────────────────────────────
+function login() {
+  const pw = document.getElementById('pw-input').value.trim();
+  if (!pw) return;
+  adminPw = pw;
+  loadData().then(() => {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+  }).catch(() => {
+    document.getElementById('login-err').textContent = 'Wrong password.';
+    adminPw = '';
+  });
+}
+
+// ── LOAD DATA ──────────────────────────────────────────────────────────────
+async function loadData() {
+  document.getElementById('loading-state').style.display = 'block';
+  document.getElementById('data-view').style.display = 'none';
+
+  const res = await fetch('/api/stats', { headers: { 'x-admin-password': adminPw } });
+  if (!res.ok) throw new Error('Unauthorized');
+  allData = await res.json();
+
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('data-view').style.display = 'block';
+  document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+
+  renderMetrics();
+  renderCharts();
+  renderTable();
+  renderQuotes();
+}
+
+// ── METRICS ───────────────────────────────────────────────────────────────
+function renderMetrics() {
+  const s = allData.stats;
+  const total = s.total;
+  const managed = (s.managementStatus.big_agency||0) + (s.managementStatus.small_agency||0) + (s.managementStatus.individual||0);
+  const global = s.marketReach.global || 0;
+  const avgSat = s.avgMgrSatisfaction ? s.avgMgrSatisfaction.toFixed(1) : '—';
+
+  const items = [
+    { label:'Total responses', value: total, sub: 'all time' },
+    { label:'Have management', value: managed, sub: `${total ? Math.round(managed/total*100) : 0}% of respondents` },
+    { label:'Global touring', value: global, sub: `${total ? Math.round(global/total*100) : 0}% of respondents` },
+    { label:'Avg mgr satisfaction', value: avgSat, sub: 'out of 10' },
+  ];
+
+  document.getElementById('metrics').innerHTML = items.map(i => `
+    <div class="metric-card">
+      <div class="label">${i.label}</div>
+      <div class="value">${i.value}</div>
+      <div class="sub">${i.sub}</div>
+    </div>`).join('');
+}
+
+// ── CHART HELPERS ─────────────────────────────────────────────────────────
+function makePie(id, dataObj, labelMap) {
+  const labels = Object.keys(dataObj).map(k => labelMap[k] || k);
+  const values = Object.values(dataObj);
+  if (charts[id]) charts[id].destroy();
+  charts[id] = new Chart(document.getElementById(id), {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data: values, backgroundColor: CHART_COLORS, borderWidth: 2, borderColor: '#fff' }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position:'right', labels: { boxWidth:12, font:{size:11} } } } }
+  });
+}
+
+function makeBar(id, labels, values, color = '#EF9F27', horizontal = false) {
+  if (charts[id]) charts[id].destroy();
+  charts[id] = new Chart(document.getElementById(id), {
+    type: 'bar',
+    data: { labels, datasets: [{ data: values, backgroundColor: color, borderRadius: 5, borderSkipped: false }] },
+    options: {
+      indexAxis: horizontal ? 'y' : 'x',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#F0F0EE' }, ticks: { font: { size: 11 } } },
+        y: { grid: { color: '#F0F0EE' }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+// ── ALL CHARTS ────────────────────────────────────────────────────────────
+function renderCharts() {
+  const s = allData.stats;
+
+  makePie('chart-mgmt', s.managementStatus, MGMT_LABELS);
+  makePie('chart-market', s.marketReach, MARKET_LABELS);
+
+  // Feature ranking (horizontal bar, sorted by avg)
+  const featLabels = s.featureRanking.map(f => f.label);
+  const featVals = s.featureRanking.map(f => f.avg);
+  makeBar('chart-features', featLabels, featVals, '#EF9F27', true);
+
+  // Fee distribution
+  const feeLabels = s.feeDistribution.map(f => f.label.replace('€','€'));
+  const feeCounts = s.feeDistribution.map(f => f.count);
+  makeBar('chart-fees', feeLabels, feeCounts, '#378ADD');
+
+  // Booking tab
+  makePie('chart-followup', s.followUpWho, FOLLOWUP_LABELS);
+  makePie('chart-lostgigs', s.lostFromNoFollowup || {}, LOST_LABELS);
+  makePie('chart-sound', s.soundClarity, SOUND_LABELS);
+  makePie('chart-trackanalysis', s.trackAnalysis || {}, TRACK_LABELS);
+
+  // Collect lostFromNoFollowup from responses
+  const lostCts = {};
+  allData.responses.forEach(r => { const v = r.data.lostFromNoFollowup; if(v) lostCts[v]=(lostCts[v]||0)+1; });
+  if (charts['chart-lostgigs']) charts['chart-lostgigs'].destroy();
+  makePie('chart-lostgigs', lostCts, LOST_LABELS);
+
+  const trackCts = {};
+  allData.responses.forEach(r => { const v = r.data.trackAnalysis; if(v) trackCts[v]=(trackCts[v]||0)+1; });
+  if (charts['chart-trackanalysis']) charts['chart-trackanalysis'].destroy();
+  makePie('chart-trackanalysis', trackCts, TRACK_LABELS);
+
+  // Content tab
+  makePie('chart-posting', s.postFreq, POST_LABELS);
+  makePie('chart-autopost', s.autoPostTrust, AUTOPOST_LABELS);
+  makePie('chart-ratedata', s.rateDataChange, RATE_LABELS);
+  makePie('chart-whopays', s.whoPays, PAYS_LABELS);
+
+  const mKeys = ['Under €100','€100-€250','€250-€500','€500-€1,000','Over €1,000'];
+  makeBar('chart-monthly', mKeys.map(k => MONTHLY_LABELS[k]||k), mKeys.map(k => s.monthlyVal[k]||0), '#1D9E75');
+
+  // Killer cat
+  makePie('chart-killercat', s.killerCat, KILLER_LABELS);
+
+  // Killer legend
+  document.getElementById('killer-legend').innerHTML = Object.entries(KILLER_LABELS).map(([k,v]) => `<div>${v}</div>`).join('');
+}
+
+// ── QUOTES ────────────────────────────────────────────────────────────────
+function renderQuotes() {
+  const items = allData.responses
+    .filter(r => r.data.killerFeature)
+    .slice().reverse()
+    .map(r => `
+      <div class="quote-item">
+        <div class="quote-dj">${r.dj_name || 'Anonymous'} &mdash; ${r.country || ''}${r.age ? ', age '+r.age : ''}</div>
+        <div class="quote-text">${r.data.killerFeature}</div>
+        ${r.data.killerCat ? `<div class="quote-cat">${KILLER_LABELS[r.data.killerCat] || r.data.killerCat}</div>` : ''}
+      </div>`).join('');
+  document.getElementById('quotes-list').innerHTML = items || '<p style="color:var(--muted);font-size:13px">No responses yet.</p>';
+}
+
+// ── TABLE ────────────────────────────────────────────────────────────────
+function renderTable() {
+  const tbody = document.getElementById('responses-tbody');
+  tbody.innerHTML = allData.responses.map((r, i) => `
+    <tr onclick="showDetail(${i})">
+      <td><strong>${r.dj_name || '—'}</strong></td>
+      <td>${r.age || '—'}</td>
+      <td>${r.country || '—'}</td>
+      <td><span class="badge">${MGMT_LABELS[r.mgmt_status] || r.mgmt_status || '—'}</span></td>
+      <td><span class="badge">${MARKET_LABELS[r.market_reach] || r.market_reach || '—'}</span></td>
+      <td style="color:var(--muted)">${new Date(r.submitted_at).toLocaleDateString()}</td>
+    </tr>`).join('') || `<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:40px">No responses yet.</td></tr>`;
+}
+
+// ── DETAIL MODAL ──────────────────────────────────────────────────────────
+function showDetail(idx) {
+  const r = allData.responses[idx];
+  const d = r.data;
+  const section = (title, rows) => `
+    <div class="detail-section">
+      <h3>${title}</h3>
+      ${rows.filter(Boolean).map(([k,v]) => v ? `
+        <div class="detail-row">
+          <div class="detail-key">${k}</div>
+          <div class="detail-val">${Array.isArray(v) ? v.join(', ') : v}</div>
+        </div>` : '').join('')}
+    </div>`;
+
+  document.getElementById('modal-content').innerHTML = `
+    <h2>${r.dj_name || 'Anonymous'}</h2>
+    ${section('Profile', [
+      ['Age', r.age], ['Country', r.country],
+      ['Management', MGMT_LABELS[r.mgmt_status]], ['Market reach', MARKET_LABELS[r.market_reach]],
+      ['Management details', d.managementDetails],
+    ])}
+    ${section('Career', [
+      ['Last 30 days hardest', d.lastMonthHardest],
+      ['Most time-consuming', d.timeConsuming],
+      ['Not doing but should', d.notDoing],
+    ])}
+    ${section('Management', [
+      d.mgr_satisfaction ? ['Manager satisfaction', d.mgr_satisfaction + '/10'] : null,
+      ['Does well', d.mgr_doesWell], ['Missing', d.mgr_missing],
+      ['Visibility gap', d.mgr_visibility],
+      ['Would stop doing', d.solo_wouldStop],
+      ['Daily expectation', d.solo_dailyExpect],
+    ])}
+    ${section('Sound & booking', [
+      ['Sound clarity', d.soundClarity], ['Sets drift', d.setsDrift],
+      ['Track analysis reaction', d.trackAnalysis],
+      ['Digging hours/week', d.diggingHours],
+      ['Discovery methods', d.discoveryMethods],
+      ['Gig sources', d.gigSources],
+      ['Follow-up who', FOLLOWUP_LABELS[d.followUpWho]],
+      ['Lost gigs', LOST_LABELS[d.lostFromNoFollowup]],
+      ['Automation concerns', d.automationConcerns],
+    ])}
+    ${section('Pricing', [
+      ['Current fee', d.currentFee], ['Target fee', d.targetFee],
+      ['Headliner story', d.headlinerStory],
+      ['Rate data change', d.rateDataChange],
+    ])}
+    ${section('Content & logistics', [
+      ['Posting frequency', d.postFreq],
+      ['Content capture', d.contentWho],
+      ['Auto-post trust', d.autoPostTrust],
+      ['Logistics mgmt', d.logisticsMgmt],
+      ['Last failure', d.logisticsFail],
+    ])}
+    ${section('The big question', [
+      ['Killer feature', d.killerFeature],
+      ['Category', KILLER_LABELS[d.killerCat]],
+      ['Why that one', d.killerWhy],
+      ['Monthly value', d.monthlyVal],
+      ['Who pays', PAYS_LABELS[d.whoPays]],
+      ['Manager paying awareness', d.mgrPayAwareness],
+    ])}
+    ${section('Future state', [
+      ['Perfect career vision', d.perfectVision],
+      ['What winning means', d.winningMeans],
+    ])}
+    <p style="font-size:11px;color:var(--hint);margin-top:12px">Submitted ${new Date(r.submitted_at).toLocaleString()}</p>`;
+
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ── EXPORT ────────────────────────────────────────────────────────────────
+function exportCSV() {
+  window.open('/api/export', '_blank');
+  const headers = new Headers({ 'x-admin-password': adminPw });
+  fetch('/api/export', { headers }).then(r => r.blob()).then(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'djmgr-responses.csv'; a.click();
+  });
+}
+
+// ── KEYBOARD ──────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>
