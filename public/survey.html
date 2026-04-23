@@ -247,18 +247,18 @@ ${field('Country you live in',
   `<input type="text" value="${formData.country}" placeholder="e.g. Spain, Colombia, UK" oninput="set('country',this.value)">`)}
 
 ${field('Current management status',
-  `<div class="pills">${pills([
+  sel('managementStatus', [
     {value:'big_agency',   label:'Big agency'},
     {value:'small_agency', label:'Small agency'},
     {value:'individual',   label:'Individual manager'},
     {value:'none',         label:'Nobody'},
-  ], 'managementStatus')}</div>`)}
+  ]))}
 
 ${field('Market reach',
-  `<div class="pills">${pills([
+  sel('marketReach', [
     {value:'specific', label:'Specific markets'},
     {value:'global',   label:'Global'},
-  ], 'marketReach')}</div>`)}
+  ]))}
 
 <div class="conditional ${formData.managementStatus && formData.managementStatus !== 'none' ? 'visible' : ''}">
   ${field('Tell us more about what you receive from management',
