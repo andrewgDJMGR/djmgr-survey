@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -7,312 +8,173 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg:       #0D0D0D;
-    --surface:  #181818;
-    --surface2: #222222;
-    --border:   #2E2E2E;
-    --border2:  #3A3A3A;
-    --text:     #F0F0F0;
-    --muted:    #888;
-    --hint:     #555;
-    --amber:    #EF9F27;
-    --amber-lo: rgba(239,159,39,0.12);
-    --amber-mid:rgba(239,159,39,0.25);
-    --green:    #1D9E75;
-    --red:      #E24B4A;
-    --radius:   10px;
-    --radius-sm:6px;
-  }
+:root {
+–bg:       #0D0D0D;
+–surface:  #181818;
+–surface2: #222222;
+–border:   #2E2E2E;
+–border2:  #3A3A3A;
+–text:     #F0F0F0;
+–muted:    #888;
+–hint:     #555;
+–amber:    #EF9F27;
+–amber-lo: rgba(239,159,39,0.12);
+–green:    #1D9E75;
+–red:      #E24B4A;
+–radius:   10px;
+–radius-sm:6px;
+}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-    padding: 0 0 80px;
-  }
+body {
+background: var(–bg);
+color: var(–text);
+font-family: -apple-system, BlinkMacSystemFont, ‘Segoe UI’, system-ui, sans-serif;
+font-size: 15px;
+line-height: 1.6;
+min-height: 100vh;
+padding: 0 0 80px;
+}
 
-  /* ── LAYOUT ── */
-  .shell {
-    max-width: 580px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
+.shell { max-width: 580px; margin: 0 auto; padding: 0 20px; }
 
-  /* ── HEADER ── */
-  .header {
-    padding: 28px 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .logo {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: var(--amber);
-    text-transform: uppercase;
-  }
-  .step-counter {
-    font-size: 12px;
-    color: var(--hint);
-  }
+.header {
+padding: 28px 0 20px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+.logo { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; color: var(–amber); text-transform: uppercase; }
+.step-counter { font-size: 12px; color: var(–hint); }
 
-  /* ── PROGRESS ── */
-  .progress-track {
-    height: 2px;
-    background: var(--border);
-    border-radius: 2px;
-    margin-bottom: 36px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--amber);
-    border-radius: 2px;
-    transition: width 0.4s ease;
-  }
+.progress-track { height: 2px; background: var(–border); border-radius: 2px; margin-bottom: 36px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(–amber); border-radius: 2px; transition: width 0.4s ease; }
 
-  /* ── STEP CONTENT ── */
-  .step-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: var(--text);
-  }
-  .step-subtitle {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 28px;
-  }
+.step-title { font-size: 20px; font-weight: 600; margin-bottom: 6px; color: var(–text); }
+.step-subtitle { font-size: 13px; color: var(–muted); margin-bottom: 28px; }
 
-  /* ── FIELD ── */
-  .field { margin-bottom: 22px; }
-  .field label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 8px;
-    line-height: 1.4;
-  }
+.field { margin-bottom: 22px; }
+.field label { display: block; font-size: 13px; font-weight: 500; color: var(–text); margin-bottom: 8px; line-height: 1.4; }
 
-  input[type="text"],
-  input[type="number"],
-  input[type="email"],
-  textarea,
-  select {
-    width: 100%;
-    padding: 10px 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.15s;
-    appearance: none;
-  }
-  input:focus, textarea:focus, select:focus {
-    border-color: var(--amber);
-  }
-  textarea { resize: vertical; line-height: 1.5; min-height: 80px; }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-    cursor: pointer;
-  }
-  select option { background: #222; }
-  input::placeholder, textarea::placeholder { color: var(--hint); }
+input[type=“text”], input[type=“number”], textarea, select {
+width: 100%;
+padding: 10px 14px;
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: var(–radius-sm);
+color: var(–text);
+font-size: 14px;
+font-family: inherit;
+outline: none;
+transition: border-color 0.15s;
+appearance: none;
+}
+input:focus, textarea:focus, select:focus { border-color: var(–amber); }
+textarea { resize: vertical; line-height: 1.5; min-height: 80px; }
+select {
+background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘12’ height=‘8’ viewBox=‘0 0 12 8’%3E%3Cpath d=‘M1 1l5 5 5-5’ stroke=’%23888’ fill=‘none’ stroke-width=‘1.5’/%3E%3C/svg%3E”);
+background-repeat: no-repeat;
+background-position: right 12px center;
+padding-right: 36px;
+cursor: pointer;
+}
+select option { background: #222; }
+input::placeholder, textarea::placeholder { color: var(–hint); }
 
-  /* ── PILLS ── */
-  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
-  .pill {
-    padding: 7px 14px;
-    font-size: 13px;
-    border-radius: 20px;
-    border: 1px solid var(--border2);
-    background: var(--surface);
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.12s;
-    user-select: none;
-  }
-  .pill:hover { border-color: var(--amber); color: var(--text); }
-  .pill.selected {
-    border-color: var(--amber);
-    background: var(--amber-lo);
-    color: var(--amber);
-    font-weight: 500;
-  }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill {
+padding: 7px 14px;
+font-size: 13px;
+border-radius: 20px;
+border: 1px solid var(–border2);
+background: var(–surface);
+color: var(–muted);
+cursor: pointer;
+transition: all 0.12s;
+user-select: none;
+}
+.pill:hover { border-color: var(–amber); color: var(–text); }
+.pill.selected { border-color: var(–amber); background: var(–amber-lo); color: var(–amber); font-weight: 500; }
 
-  /* ── RANGE ── */
-  .range-wrap {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  input[type="range"] {
-    flex: 1;
-    padding: 0;
-    border: none;
-    background: transparent;
-    accent-color: var(--amber);
-    cursor: pointer;
-    height: 20px;
-  }
-  .range-val {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--amber);
-    min-width: 26px;
-    text-align: center;
-  }
-  .range-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: var(--hint);
-    margin-top: 4px;
-  }
+.range-wrap { display: flex; align-items: center; gap: 14px; }
+input[type=“range”] { flex: 1; padding: 0; border: none; background: transparent; accent-color: var(–amber); cursor: pointer; height: 20px; }
+.range-val { font-size: 22px; font-weight: 600; color: var(–amber); min-width: 26px; text-align: center; }
+.range-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(–hint); margin-top: 4px; }
 
-  /* ── RANKING TABLE ── */
-  .rank-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 11px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-  }
-  .rank-row:last-child { border-bottom: none; }
-  .rank-select {
-    width: 68px;
-    flex-shrink: 0;
-    padding: 6px 10px;
-    font-size: 13px;
-  }
+.rank-row { display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(–border); font-size: 14px; }
+.rank-row:last-child { border-bottom: none; }
+.rank-select { width: 68px; flex-shrink: 0; padding: 6px 10px; font-size: 13px; }
 
-  /* ── BUTTONS ── */
-  .nav-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 32px;
-  }
-  .btn {
-    padding: 11px 20px;
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    font-weight: 500;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.15s;
-    border: 1px solid var(--border2);
-    background: var(--surface);
-    color: var(--text);
-  }
-  .btn:hover { background: var(--surface2); }
-  .btn-primary {
-    flex: 1;
-    background: var(--amber);
-    border-color: var(--amber);
-    color: #111;
-  }
-  .btn-primary:hover { background: #d68e20; border-color: #d68e20; }
-  .btn-primary:disabled {
-    background: var(--surface2);
-    border-color: var(--border);
-    color: var(--hint);
-    cursor: default;
-  }
+.nav-row { display: flex; gap: 10px; margin-top: 32px; }
+.btn { padding: 11px 20px; border-radius: var(–radius-sm); font-size: 14px; font-weight: 500; font-family: inherit; cursor: pointer; transition: all 0.15s; border: 1px solid var(–border2); background: var(–surface); color: var(–text); }
+.btn:hover { background: var(–surface2); }
+.btn-primary { flex: 1; background: var(–amber); border-color: var(–amber); color: #111; }
+.btn-primary:hover { background: #d68e20; border-color: #d68e20; }
+.btn-primary:disabled { background: var(–surface2); border-color: var(–border); color: var(–hint); cursor: default; }
 
-  /* ── ERROR ── */
-  .err-msg {
-    font-size: 12px;
-    color: var(--red);
-    margin-top: 6px;
-  }
+.err-msg { font-size: 12px; color: var(–red); margin-top: 6px; }
 
-  /* ── DONE SCREEN ── */
-  .done-screen {
-    text-align: center;
-    padding: 60px 20px;
-  }
-  .done-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--amber-lo);
-    border: 2px solid var(--amber);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 22px;
-    color: var(--amber);
-  }
-  .done-screen h2 { font-size: 20px; margin-bottom: 8px; }
-  .done-screen p { color: var(--muted); font-size: 14px; }
+.done-screen { text-align: center; padding: 60px 20px; }
+.done-icon { width: 56px; height: 56px; border-radius: 50%; background: var(–amber-lo); border: 2px solid var(–amber); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 22px; color: var(–amber); }
+.done-screen h2 { font-size: 20px; margin-bottom: 8px; }
+.done-screen p { color: var(–muted); font-size: 14px; }
 
-  /* ── CONDITIONAL SECTION ── */
-  .conditional { display: none; }
-  .conditional.visible { display: block; }
+.conditional { display: none; }
+.conditional.visible { display: block; }
 
-  /* ── MOBILE ── */
-  @media (max-width: 480px) {
-    .step-title { font-size: 18px; }
-    .pill { font-size: 12px; padding: 6px 12px; }
-  }
+@media (max-width: 480px) {
+.step-title { font-size: 18px; }
+.pill { font-size: 12px; padding: 6px 12px; }
+}
 </style>
+
 </head>
 <body>
 <div class="shell">
   <div class="header">
     <span class="logo">DJMGR</span>
-    <span class="step-counter" id="step-counter">1 of 10</span>
+    <span class="step-counter" id="step-counter">1 of 11</span>
   </div>
   <div class="progress-track">
-    <div class="progress-fill" id="progress-fill" style="width:10%"></div>
+    <div class="progress-fill" id="progress-fill" style="width:9%"></div>
   </div>
   <div id="step-content"></div>
 </div>
 
 <script>
-// ─── STATE ──────────────────────────────────────────────────────────────────
 let step = 0;
 let formData = {
   // Profile
-  djName: '', age: '', country: '', managementStatus: '', marketReach: '', managementDetails: '',
+  djName:'', age:'', country:'', managementStatus:'', marketReach:'', managementDetails:'',
+  // Background
+  yearsdjing:'', productionsThisYear:'', hasLabel:'',
   // Career
-  lastMonthHardest: '', timeConsuming: [], notDoing: [],
-  // Management (managed)
-  mgr_satisfaction: 5, mgr_doesWell: '', mgr_missing: '', mgr_visibility: '',
-  // Management (solo)
-  solo_wouldStop: '', solo_dailyExpect: '', solo_valueAdd: [], solo_overrated: [],
+  lastMonthHardest:'', timeConsuming:[], notDoing:[],
+  // Management - managed path
+  mgr_satisfaction:5, mgr_doesWell:'', mgr_missing:'', mgr_visibility:'',
+  // Management - solo path
+  solo_wouldStop:'', solo_dailyExpect:'', solo_valueAdd:[], solo_overrated:[],
   // Ranking
-  featureRanking: { soundMastery:'', gettingBooked:'', raisingFees:'', contentSocial:'', adminLogistics:'', brandBio:'' },
-  rankingWhy: '',
-  // Sound
-  soundClarity: '', setsDrift: '', trackAnalysis: '', diggingHours: '', discoveryMethods: [],
+  featureRanking:{ soundMastery:'', gettingBooked:'', raisingFees:'', contentSocial:'', adminLogistics:'', brandBio:'' },
+  rankingWhy:'',
+  // Sound & identity
+  soundClarity:'', bioLastUpdated:'', soundReadiness:'', setsDrift:'', trackAnalysis:'',
+  // Discovery
+  diggingHours:'', discoveryMethods:[],
   // Booking
-  gigSources: [], followUpWho: '', lostFromNoFollowup: '', knowNextCities: '', newCityOrigin: '', automationConcerns: '',
+  gigSources:[], targetVenueApproach:'', noResponseHandling:'', autoFollowupUsefulness:'',
+  nearbyDates:'', followUpWho:'', lostFromNoFollowup:'',
   // Pricing
-  currentFee: '', targetFee: '', headlinerStory: '', rateDataChange: '',
+  currentFee:'', targetFee:'', headlinerStory:'', rateDataChange:'',
   // Content & logistics
-  postFreq: '', contentWho: '', autoPostTrust: '', logisticsMgmt: '', logisticsFail: '',
+  postFreq:'', contentWho:'', autoPostTrust:'', logisticsMgmt:'', logisticsFail:'',
   // Big question
-  killerFeature: '', killerCat: '', killerWhy: '', monthlyVal: '', whoPays: '', mgrPayAwareness: '',
+  silentOpsWant:'', killerFeature:'', killerCat:'', killerWhy:'',
+  monthlyVal:'', whoPays:'', mgrPayAwareness:'',
   // Future
-  perfectVision: '', winningMeans: '',
+  perfectVision:'', winningMeans:'',
 };
 
-const TOTAL_STEPS = 10;
+const TOTAL_STEPS = 11;
 const isManaged = () => ['big_agency','small_agency','individual'].includes(formData.managementStatus);
 
 const FEE_RANGES = ['Under €500','€500-€1,500','€1,500-€3,000','€3,000-€7,500','€7,500-€15,000','€15,000-€30,000','Over €30,000'];
@@ -326,18 +188,17 @@ const FEATURES = [
   { key:'brandBio',       label:'Brand, story & bio' },
 ];
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
 function set(key, val) { formData[key] = val; }
 function setRank(key, val) { formData.featureRanking[key] = val; }
 
-function pills(items, field, multi = false, isArray = false) {
+function pills(items, field, multi, isArray) {
   const current = isArray ? (formData[field] || []) : formData[field];
   return items.map(item => {
     const v = item.value || item;
     const l = item.label || item;
     const sel = isArray ? current.includes(v) : current === v;
     return `<button type="button" class="pill ${sel ? 'selected' : ''}"
-      onclick="togglePill('${field}',${JSON.stringify(v)},${isArray})">${l}</button>`;
+      onclick="togglePill('${field}',${JSON.stringify(v)},${!!isArray})">${l}</button>`;
   }).join('');
 }
 
@@ -355,440 +216,556 @@ function field(label, inputHtml) {
   return `<div class="field"><label>${label}</label>${inputHtml}</div>`;
 }
 
-function txtArea(f, placeholder, rows = 3) {
-  return `<textarea rows="${rows}" placeholder="${placeholder}"
+function txtArea(f, placeholder, rows) {
+  return `<textarea rows="${rows||3}" placeholder="${placeholder}"
     oninput="set('${f}',this.value)">${formData[f] || ''}</textarea>`;
+
 }
 
-function sel(f, options, placeholder = 'Select...') {
-  const opts = [`<option value="">${placeholder}</option>`,
-    ...options.map(o => {
-      const v = o.value||o, l = o.label||o;
-      return `<option value="${v}" ${formData[f]===v?'selected':''}>${l}</option>`;
-    })].join('');
-  return `<select onchange="set('${f}',this.value)">${opts}</select>`;
+function sel(f, options, placeholder) {
+const opts = [`<option value="">${placeholder||'Select...'}</option>`,
+…options.map(o => {
+const v = o.value||o, l = o.label||o;
+return `<option value="${v}" ${formData[f]===v?'selected':''}>${l}</option>`;
+})].join(’’);
+return `<select onchange="set('${f}',this.value)">${opts}</select>`;
 }
 
 // ─── STEPS ───────────────────────────────────────────────────────────────────
+
 function stepProfile() {
-  return `
-    <h2 class="step-title">Tell us about you</h2>
-    <p class="step-subtitle">No hypotheticals. Just how things actually are.</p>
+return `
+<h2 class="step-title">Tell us about you</h2>
+<p class="step-subtitle">No hypotheticals. Just how things actually are.</p>
 
-    ${field('DJ name',
-      `<input type="text" value="${formData.djName}" placeholder="Your stage name" oninput="set('djName',this.value)">`)}
-    ${field('Age',
-      `<input type="number" value="${formData.age}" placeholder="Your age" oninput="set('age',this.value)" min="16" max="80">`)}
-    ${field('Country you live in',
-      `<input type="text" value="${formData.country}" placeholder="e.g. Spain, Colombia, UK" oninput="set('country',this.value)">`)}
+```
+${field('DJ name',
+  `<input type="text" value="${formData.djName}" placeholder="Your stage name" oninput="set('djName',this.value)">`)}
+${field('Age',
+  `<input type="number" value="${formData.age}" placeholder="Your age" oninput="set('age',this.value)" min="16" max="80">`)}
+${field('Country you live in',
+  `<input type="text" value="${formData.country}" placeholder="e.g. Spain, Colombia, UK" oninput="set('country',this.value)">`)}
 
-    ${field('Current management status',
-      `<div class="pills">${pills([
-        {value:'big_agency',   label:'Big agency'},
-        {value:'small_agency', label:'Small agency'},
-        {value:'individual',   label:'Individual manager'},
-        {value:'none',         label:'Nobody'},
-      ], 'managementStatus')}</div>`)}
+${field('Current management status',
+  `<div class="pills">${pills([
+    {value:'big_agency',   label:'Big agency'},
+    {value:'small_agency', label:'Small agency'},
+    {value:'individual',   label:'Individual manager'},
+    {value:'none',         label:'Nobody'},
+  ], 'managementStatus')}</div>`)}
 
-    ${field('Market reach',
-      `<div class="pills">${pills([
-        {value:'specific', label:'Specific markets'},
-        {value:'global',   label:'Global'},
-      ], 'marketReach')}</div>`)}
+${field('Market reach',
+  `<div class="pills">${pills([
+    {value:'specific', label:'Specific markets'},
+    {value:'global',   label:'Global'},
+  ], 'marketReach')}</div>`)}
 
-    <div class="conditional ${formData.managementStatus && formData.managementStatus !== 'none' ? 'visible' : ''}">
-      ${field('More information about what you receive from management',
-        txtArea('managementDetails', 'What do they actually handle for you?', 2))}
-    </div>
+<div class="conditional ${formData.managementStatus && formData.managementStatus !== 'none' ? 'visible' : ''}">
+  ${field('Tell us more about what you receive from management',
+    txtArea('managementDetails', 'What do they actually handle for you?', 2))}
+</div>
 
-    <div class="nav-row">
-      <button class="btn btn-primary" onclick="next()"
-        ${!formData.djName || !formData.managementStatus || !formData.marketReach ? 'disabled' : ''}>
-        Continue
-      </button>
-    </div>`;
+<div class="nav-row">
+  <button class="btn btn-primary" onclick="next()"
+    ${!formData.djName || !formData.managementStatus || !formData.marketReach ? 'disabled' : ''}>
+    Continue
+  </button>
+</div>`;
+```
+
+}
+
+function stepBackground() {
+return `
+<h2 class="step-title">Background</h2>
+<p class="step-subtitle">Quick context questions.</p>
+
+```
+${field('How long have you been DJing?',
+  sel('yearsdjing', [
+    {value:'under_2',  label:'Under 2 years'},
+    {value:'2_5',      label:'2-5 years'},
+    {value:'5_10',     label:'5-10 years'},
+    {value:'10_plus',  label:'10+ years'},
+  ]))}
+
+${field('How many productions have you released this year?',
+  `<input type="number" value="${formData.productionsThisYear}" placeholder="0 is a valid answer"
+    oninput="set('productionsThisYear',this.value)" min="0" max="200">`)}
+
+${field('Do you have a label?',
+  `<div class="pills">${pills([
+    {value:'yes_own',   label:'Yes, my own'},
+    {value:'yes_signed',label:'Yes, signed to one'},
+    {value:'no',        label:'No'},
+  ], 'hasLabel')}</div>`)}
+
+<div class="nav-row">
+  <button class="btn" onclick="back()">Back</button>
+  <button class="btn btn-primary" onclick="next()"
+    ${!formData.yearsdjing ? 'disabled' : ''}>Continue</button>
+</div>`;
+```
+
 }
 
 function stepCareer() {
-  return `
-    <h2 class="step-title">Career reality</h2>
-    <p class="step-subtitle">How it actually works right now.</p>
+return `
+<h2 class="step-title">Career reality</h2>
+<p class="step-subtitle">Walk me through the business side of your career right now.</p>
 
-    ${field('Walk me through your last 30 days of gigs — from getting booked to walking off stage. What was hardest?',
-      txtArea('lastMonthHardest', 'Be specific...', 4))}
+```
+${field('How many gigs did you play in the last 30 days?',
+  `<input type="number" value="${formData.gigsLastMonth||''}" placeholder="Number of gigs"
+    oninput="set('gigsLastMonth',this.value)" min="0" max="100">`)}
 
-    ${field('What takes the most time in your career right now?',
-      `<div class="pills">${pills([
-        'Booking and pitching','Following up on leads','Content creation',
-        'Music discovery','Admin and logistics','Bio and press materials','Financial tracking'
-      ], 'timeConsuming', true, true)}</div>`)}
+${field('Walk me through the last 30 days — from getting booked to walking off stage. What was hardest?',
+  txtArea('lastMonthHardest', 'Be specific...', 4))}
 
-    ${field("What are you NOT doing right now that you know would grow your career?",
-      `<div class="pills">${pills([
-        'More outreach','Better content','More music digging','Better press kit',
-        'Targeting new cities','Raising my fees','Smarter routing and touring'
-      ], 'notDoing', true, true)}</div>`)}
+${field('What takes the most time in your career right now?',
+  `<div class="pills">${pills([
+    'Booking and pitching','Following up on leads','Content creation',
+    'Music discovery','Admin and logistics','Bio and press materials','Financial tracking'
+  ], 'timeConsuming', true, true)}</div>`)}
 
-    <div class="nav-row">
-      <button class="btn" onclick="back()">Back</button>
-      <button class="btn btn-primary" onclick="next()">Continue</button>
-    </div>`;
+${field('What are you NOT doing right now that you know would grow your career?',
+  `<div class="pills">${pills([
+    'More outreach','Better content','More music digging','Better press kit',
+    'Targeting new cities','Raising my fees','Smarter routing and touring'
+  ], 'notDoing', true, true)}</div>`)}
+
+<div class="nav-row">
+  <button class="btn" onclick="back()">Back</button>
+  <button class="btn btn-primary" onclick="next()">Continue</button>
+</div>`;
+```
+
 }
 
 function stepManagement() {
-  if (isManaged()) {
-    const statusLabel = {big_agency:'Big agency', small_agency:'Small agency', individual:'Individual manager'}[formData.managementStatus];
-    return `
-      <h2 class="step-title">Your management</h2>
-      <p class="step-subtitle">${statusLabel}</p>
+if (isManaged()) {
+const statusLabel = {big_agency:‘Big agency’, small_agency:‘Small agency’, individual:‘Individual manager’}[formData.managementStatus];
+return `
+<h2 class="step-title">Your management</h2>
+<p class="step-subtitle">${statusLabel}</p>
 
-      ${field('Satisfaction with current management',
-        `<div class="range-wrap">
-          <input type="range" min="1" max="10" step="1" value="${formData.mgr_satisfaction}"
-            oninput="set('mgr_satisfaction',parseInt(this.value));document.getElementById('sat-val').textContent=this.value">
-          <span class="range-val" id="sat-val">${formData.mgr_satisfaction}</span>
-        </div>
-        <div class="range-labels"><span>1 — very unsatisfied</span><span>10 — perfect</span></div>`)}
+```
+  ${field('Are you happy with your management and agency?',
+    `<div class="range-wrap">
+      <input type="range" min="1" max="10" step="1" value="${formData.mgr_satisfaction}"
+        oninput="set('mgr_satisfaction',parseInt(this.value));document.getElementById('sat-val').textContent=this.value">
+      <span class="range-val" id="sat-val">${formData.mgr_satisfaction}</span>
+    </div>
+    <div class="range-labels"><span>1 — not at all</span><span>10 — completely</span></div>`)}
 
-      ${field("What does your manager do really well?",
-        txtArea('mgr_doesWell', 'Be honest...', 2))}
-      ${field("What do you wish they did that they currently don't?",
-        txtArea('mgr_missing', "What's missing...", 2))}
-      ${field("What does your manager know about your career that you wish you knew too?",
-        txtArea('mgr_visibility', 'Fee benchmarks, promoter relationships, venue contacts...', 2))}
+  ${field('What does your manager do really well?',
+    txtArea('mgr_doesWell', 'Be honest...', 2))}
+  ${field("What do you wish they did that they currently don't?",
+    txtArea('mgr_missing', "What's missing...", 2))}
+  ${field('What does your manager know about your career that you wish you knew too?',
+    txtArea('mgr_visibility', 'Fee benchmarks, promoter relationships, venue contacts...', 2))}
+  ${field('What do you expect from your manager?',
+    txtArea('mgr_expectations', 'Daily, weekly, long-term...', 2))}
+  ${field('What are you willing to do to help yourself and help them find the right path for your career?',
+    txtArea('mgr_willing', 'Content, outreach, pitching...', 2))}
 
-      <div class="nav-row">
-        <button class="btn" onclick="back()">Back</button>
-        <button class="btn btn-primary" onclick="next()">Continue</button>
-      </div>`;
-  } else {
-    return `
-      <h2 class="step-title">Flying solo</h2>
-      <p class="step-subtitle">No management right now.</p>
+  <div class="nav-row">
+    <button class="btn" onclick="back()">Back</button>
+    <button class="btn btn-primary" onclick="next()">Continue</button>
+  </div>`;
+```
 
-      ${field("If you had a world-class manager tomorrow, what would you immediately stop doing yourself?",
-        txtArea('solo_wouldStop', 'Be specific...', 2))}
-      ${field("What would you expect a manager to handle daily vs weekly?",
-        txtArea('solo_dailyExpect', 'Daily: ...   Weekly: ...', 2))}
+} else {
+return `
+<h2 class="step-title">Flying solo</h2>
+<p class="step-subtitle">No management right now.</p>
 
-      ${field("Where do you think managers add the most value?",
-        `<div class="pills">${pills([
-          'Getting better gigs','Raising fees','Handling follow-ups',
-          'Routing and logistics','Content strategy','Venue relationships','Career positioning'
-        ], 'solo_valueAdd', true, true)}</div>`)}
+```
+  ${field('If you had a world-class manager tomorrow, what would you immediately stop doing yourself?',
+    txtArea('solo_wouldStop', 'Be specific...', 2))}
+  ${field('What would you expect a manager to handle daily vs weekly?',
+    txtArea('solo_dailyExpect', 'Daily: ...   Weekly: ...', 2))}
+  ${field('Where do you think managers add the most value?',
+    `<div class="pills">${pills([
+      'Getting better gigs','Raising fees','Handling follow-ups',
+      'Routing and logistics','Content strategy','Venue relationships','Career positioning'
+    ], 'solo_valueAdd', true, true)}</div>`)}
+  ${field('Where do you think managers are overrated or unnecessary?',
+    `<div class="pills">${pills([
+      'Creative direction','Social media','Music selection',
+      'Day-to-day logistics','Fan relationships'
+    ], 'solo_overrated', true, true)}</div>`)}
 
-      ${field("Where do you think managers are overrated or unnecessary?",
-        `<div class="pills">${pills([
-          'Creative direction','Social media','Music selection',
-          'Day-to-day logistics','Fan relationships'
-        ], 'solo_overrated', true, true)}</div>`)}
+  <div class="nav-row">
+    <button class="btn" onclick="back()">Back</button>
+    <button class="btn btn-primary" onclick="next()">Continue</button>
+  </div>`;
+```
 
-      <div class="nav-row">
-        <button class="btn" onclick="back()">Back</button>
-        <button class="btn btn-primary" onclick="next()">Continue</button>
-      </div>`;
-  }
+}
 }
 
 function stepRanking() {
-  const used = Object.values(formData.featureRanking).filter(Boolean);
-  const hasDups = new Set(used).size !== used.length;
-  const allDone = FEATURES.every(f => formData.featureRanking[f.key]);
+const used = Object.values(formData.featureRanking).filter(Boolean);
+const hasDups = new Set(used).size !== used.length;
+const allDone = FEATURES.every(f => formData.featureRanking[f.key]);
 
-  return `
-    <h2 class="step-title">What matters most</h2>
-    <p class="step-subtitle">Rank 1–6 by impact on your career right now. 1 = most important.</p>
+return `
+<h2 class="step-title">What matters most</h2>
+<p class="step-subtitle">Rank 1–6 by impact on your career right now. 1 = most important.</p>
 
-    <div style="margin-bottom:20px">
-      ${FEATURES.map(f => `
-        <div class="rank-row">
-          <span>${f.label}</span>
-          <select class="rank-select" onchange="setRank('${f.key}',this.value);render()">
-            <option value="">--</option>
-            ${[1,2,3,4,5,6].map(n =>
-              `<option value="${n}" ${formData.featureRanking[f.key]===String(n)?'selected':''}>${n}</option>`
-            ).join('')}
-          </select>
-        </div>`).join('')}
-    </div>
+```
+<div style="margin-bottom:20px">
+  ${FEATURES.map(f => `
+    <div class="rank-row">
+      <span>${f.label}</span>
+      <select class="rank-select" onchange="setRank('${f.key}',this.value);render()">
+        <option value="">--</option>
+        ${[1,2,3,4,5,6].map(n =>
+          `<option value="${n}" ${formData.featureRanking[f.key]===String(n)?'selected':''}>${n}</option>`
+        ).join('')}
+      </select>
+    </div>`).join('')}
+</div>
 
-    ${hasDups ? '<p class="err-msg">Each number can only be used once.</p>' : ''}
+${hasDups ? '<p class="err-msg">Each number can only be used once.</p>' : ''}
 
-    ${allDone && !hasDups ? field("Why is your top-ranked choice first?",
-      txtArea('rankingWhy', 'What makes it the priority for you right now?', 2)) : ''}
+${allDone && !hasDups ? field('Why is your top-ranked choice first?',
+  txtArea('rankingWhy', 'What makes it the priority for you right now?', 2)) : ''}
 
-    <div class="nav-row">
-      <button class="btn" onclick="back()">Back</button>
-      <button class="btn btn-primary" onclick="next()" ${!allDone || hasDups ? 'disabled' : ''}>Continue</button>
-    </div>`;
+<div class="nav-row">
+  <button class="btn" onclick="back()">Back</button>
+  <button class="btn btn-primary" onclick="next()" ${!allDone || hasDups ? 'disabled' : ''}>Continue</button>
+</div>`;
+```
+
 }
 
 function stepSound() {
-  return `
-    <h2 class="step-title">Sound and discovery</h2>
+return `
+<h2 class="step-title">Sound and identity</h2>
 
-    ${field('How clearly defined is your sound today?',
-      `<div class="pills">${pills([
-        {value:'very_clear',label:'Very clear'},
-        {value:'somewhat',  label:'Somewhat'},
-        {value:'not_really',label:'Not really'},
-      ], 'soundClarity')}</div>`)}
+```
+${field('How clearly defined is your sound today?',
+  `<div class="pills">${pills([
+    {value:'very_clear', label:'Very clear'},
+    {value:'somewhat',   label:'Somewhat'},
+    {value:'not_really', label:'Not really'},
+  ], 'soundClarity')}</div>`)}
 
-    ${field('Do your sets ever drift from your identity?',
-      `<div class="pills">${pills([
-        {value:'often',     label:'Yes, often'},
-        {value:'sometimes', label:'Sometimes'},
-        {value:'rarely',    label:'Rarely'},
-      ], 'setsDrift')}</div>`)}
+${field('If a promoter asked you to describe your sound in 30 seconds right now — how ready is that answer?',
+  `<div class="pills">${pills([
+    {value:'ready',        label:'Ready, I have it nailed'},
+    {value:'pretty_ready', label:'Pretty ready'},
+    {value:'would_stumble', label:'I would stumble'},
+    {value:'not_ready',    label:'Not ready at all'},
+  ], 'soundReadiness')}</div>`)}
 
-    ${field('If a system showed you which tracks weaken your identity and rare perfect-fit tracks — useful or intrusive?',
-      `<div class="pills">${pills([
-        {value:'useful',   label:'Useful'},
-        {value:'intrusive',label:'Intrusive'},
-        {value:'depends',  label:'Depends how it works'},
-      ], 'trackAnalysis')}</div>`)}
+${field('When was your bio or artist statement last updated?',
+  sel('bioLastUpdated', [
+    {value:'this_month',   label:'This month'},
+    {value:'this_year',    label:'This year'},
+    {value:'over_a_year',  label:'Over a year ago'},
+    {value:'never',        label:'I do not have one'},
+  ]))}
 
-    ${field('Hours per week spent digging for new music',
-      `<input type="number" value="${formData.diggingHours}" placeholder="Hours per week"
-        oninput="set('diggingHours',this.value)" min="0" max="80">`)}
+${field('Do your sets ever drift from your identity?',
+  `<div class="pills">${pills([
+    {value:'often',     label:'Yes, often'},
+    {value:'sometimes', label:'Sometimes'},
+    {value:'rarely',    label:'Rarely'},
+  ], 'setsDrift')}</div>`)}
 
-    ${field('How do you discover new music?',
-      `<div class="pills">${pills([
-        'Social media algorithms','Beatport charts','Other DJ sets',
-        'Label promos','Peers and friends','Podcasts and mixes','Digging archives'
-      ], 'discoveryMethods', true, true)}</div>`)}
+${field('If a system showed you which tracks weaken your identity and rare perfect-fit tracks — useful or intrusive?',
+  `<div class="pills">${pills([
+    {value:'useful',    label:'Useful'},
+    {value:'intrusive', label:'Intrusive'},
+    {value:'depends',   label:'Depends how it works'},
+  ], 'trackAnalysis')}</div>`)}
 
-    <div class="nav-row">
-      <button class="btn" onclick="back()">Back</button>
-      <button class="btn btn-primary" onclick="next()">Continue</button>
-    </div>`;
+${field('Hours per week spent digging for new music',
+  `<input type="number" value="${formData.diggingHours}" placeholder="Hours per week"
+    oninput="set('diggingHours',this.value)" min="0" max="80">`)}
+
+${field('How do you discover new music?',
+  `<div class="pills">${pills([
+    'Social media algorithms','Beatport charts','Other DJ sets',
+    'Label promos','Peers and friends','Podcasts and mixes','Digging archives'
+  ], 'discoveryMethods', true, true)}</div>`)}
+
+<div class="nav-row">
+  <button class="btn" onclick="back()">Back</button>
+  <button class="btn btn-primary" onclick="next()">Continue</button>
+</div>`;
+```
+
 }
 
 function stepBooking() {
-  return `
-    <h2 class="step-title">Booking and outreach</h2>
+return `
+<h2 class="step-title">Booking and outreach</h2>
 
-    ${field('How do most of your gigs come in?',
-      `<div class="pills">${pills([
-        'Manager or agency','Personal relationships','Social media presence',
-        'My own cold outreach','Inbound from promoters','Word of mouth'
-      ], 'gigSources', true, true)}</div>`)}
+```
+${field('How do most of your bookings come in?',
+  `<div class="pills">${pills([
+    'Manager or agency','Personal relationships','Social media presence',
+    'My own cold outreach','Inbound from promoters','Word of mouth'
+  ], 'gigSources', true, true)}</div>`)}
 
-    ${field('Who handles follow-ups on bookings?',
-      `<div class="pills">${pills([
-        {value:'me',      label:'Me'},
-        {value:'manager', label:'My manager'},
-        {value:'shared',  label:'Shared'},
-        {value:'nobody',  label:'Honestly nobody'},
-      ], 'followUpWho')}</div>`)}
+${field("When there's a venue or festival you want to play — what do you actually do about it?",
+  txtArea('targetVenueApproach', 'Walk me through what you do...', 3))}
 
-    ${field('How often do you lose gigs because nobody followed up?',
-      `<div class="pills">${pills([
-        {value:'never',      label:'Never'},
-        {value:'sometimes',  label:'Sometimes'},
-        {value:'often',      label:'Often'},
-        {value:'constantly', label:'Constantly'},
-      ], 'lostFromNoFollowup')}</div>`)}
+${field('When you pitch someone and do not hear back, how do you handle it?',
+  `<div class="pills">${pills([
+    {value:'follow_up_myself',  label:'I follow up myself'},
+    {value:'manager_follows_up',label:'My manager follows up'},
+    {value:'let_it_go',         label:'I usually let it go'},
+    {value:'forget_about_it',   label:'Honestly I forget about it'},
+  ], 'noResponseHandling')}</div>`)}
 
-    ${field('Do you know which cities to push into next?',
-      `<div class="pills">${pills([
-        {value:'yes',      label:'Yes'},
-        {value:'somewhat', label:'Somewhat'},
-        {value:'no',       label:'No'},
-      ], 'knowNextCities')}</div>`)}
+${field('If follow-ups were handled automatically in the background for you — how useful would that be?',
+  `<div class="pills">${pills([
+    {value:'very_useful',   label:'Very useful'},
+    {value:'somewhat',      label:'Somewhat useful'},
+    {value:'not_sure',      label:'Not sure'},
+    {value:'not_useful',    label:'Not useful'},
+  ], 'autoFollowupUsefulness')}</div>`)}
 
-    ${field('When you play a new city for the first time, how does that booking usually come about?',
-      txtArea('newCityOrigin', 'How it typically happens...', 2))}
+${field('When you confirm a gig away from home, do you try to pick up nearby dates around it?',
+  `<div class="pills">${pills([
+    {value:'always',    label:'Always'},
+    {value:'sometimes', label:'Sometimes'},
+    {value:'rarely',    label:'Rarely'},
+    {value:'never',     label:'Never thought about it'},
+  ], 'nearbyDates')}</div>`)}
 
-    ${field('If outreach and follow-ups were handled automatically, what concerns would you have?',
-      txtArea('automationConcerns', 'Trust, tone, control...', 2))}
+${field('Who is actually responsible for follow-ups on bookings right now?',
+  `<div class="pills">${pills([
+    {value:'me',      label:'Me'},
+    {value:'manager', label:'My manager'},
+    {value:'shared',  label:'Shared'},
+    {value:'nobody',  label:'Honestly nobody'},
+  ], 'followUpWho')}</div>`)}
 
-    <div class="nav-row">
-      <button class="btn" onclick="back()">Back</button>
-      <button class="btn btn-primary" onclick="next()">Continue</button>
-    </div>`;
+${field('How often do you lose gigs because nobody followed up?',
+  `<div class="pills">${pills([
+    {value:'never',      label:'Never'},
+    {value:'sometimes',  label:'Sometimes'},
+    {value:'often',      label:'Often'},
+    {value:'constantly', label:'Constantly'},
+  ], 'lostFromNoFollowup')}</div>`)}
+
+<div class="nav-row">
+  <button class="btn" onclick="back()">Back</button>
+  <button class="btn btn-primary" onclick="next()">Continue</button>
+</div>`;
+```
+
 }
 
 function stepPricing() {
-  return `
-    <h2 class="step-title">Pricing</h2>
+return `
+<h2 class="step-title">Pricing</h2>
 
-    ${field('Current average gig fee', sel('currentFee', FEE_RANGES))}
-    ${field('What you think it should be', sel('targetFee', FEE_RANGES))}
+```
+${field('How do you typically decide what to charge for a gig?',
+  txtArea('rateDecisionLogic', 'Walk me through your thinking...', 2))}
 
-    ${field('Tell me about a specific gig where you found out afterward what the headliner made. What happened?',
-      txtArea('headlinerStory', 'What you earned, what they earned, how it felt...', 3))}
+${field('How do you feel about your current rate?',
+  `<div class="pills">${pills([
+    {value:'undercharging',  label:'I am undercharging'},
+    {value:'about_right',    label:'About right'},
+    {value:'overcharging',   label:'Sometimes overcharging'},
+    {value:'no_idea',        label:'Honestly I have no idea'},
+  ], 'rateFeeling')}</div>`)}
 
-    ${field('If you had data showing DJs like you earning 2x, would that change how you negotiate?',
-      `<div class="pills">${pills([
-        {value:'yes',   label:'Yes, immediately'},
-        {value:'maybe', label:'Maybe'},
-        {value:'no',    label:'I already know my worth'},
-      ], 'rateDataChange')}</div>`)}
+${field('Current average gig fee', sel('currentFee', FEE_RANGES))}
+${field('What you think it should be', sel('targetFee', FEE_RANGES))}
 
-    <div class="nav-row">
-      <button class="btn" onclick="back()">Back</button>
-      <button class="btn btn-primary" onclick="next()">Continue</button>
-    </div>`;
+${field('Tell me about a specific gig where you found out afterward what the headliner made. What happened?',
+  txtArea('headlinerStory', 'What you earned, what they earned, how it felt...', 3))}
+
+${field('If you had data showing DJs like you earning 2x, would that change how you negotiate?',
+  `<div class="pills">${pills([
+    {value:'yes',   label:'Yes, immediately'},
+    {value:'maybe', label:'Maybe'},
+    {value:'no',    label:'I already know my worth'},
+  ], 'rateDataChange')}</div>`)}
+
+<div class="nav-row">
+  <button class="btn" onclick="back()">Back</button>
+  <button class="btn btn-primary" onclick="next()">Continue</button>
+</div>`;
+```
+
 }
 
 function stepContent() {
-  return `
-    <h2 class="step-title">Content and logistics</h2>
+return `
+<h2 class="step-title">Content and logistics</h2>
 
-    ${field('How often do you post content from gigs?',
-      `<div class="pills">${pills([
-        {value:'never',       label:'Never'},
-        {value:'rarely',      label:'Rarely'},
-        {value:'sometimes',   label:'Sometimes'},
-        {value:'consistently',label:'Consistently'},
-      ], 'postFreq')}</div>`)}
+```
+${field("What's your content situation like right now?",
+  `<div class="pills">${pills([
+    {value:'never',       label:'I almost never post'},
+    {value:'rarely',      label:'I post when I remember'},
+    {value:'sometimes',   label:'I post sometimes'},
+    {value:'consistently',label:'I post consistently'},
+  ], 'postFreq')}</div>`)}
 
-    ${field('Who captures your content?',
-      `<div class="pills">${pills([
-        {value:'me',      label:'Me'},
-        {value:'manager', label:'My manager'},
-        {value:'hired',   label:'I hire someone'},
-        {value:'nobody',  label:'Nobody'},
-      ], 'contentWho')}</div>`)}
+${field('Who captures your content at gigs?',
+  `<div class="pills">${pills([
+    {value:'me',      label:'Me'},
+    {value:'manager', label:'My manager'},
+    {value:'hired',   label:'I hire someone'},
+    {value:'nobody',  label:'Nobody'},
+  ], 'contentWho')}</div>`)}
 
-    ${field('If content was automatically captured and posted, would you trust it?',
-      `<div class="pills">${pills([
-        {value:'yes',          label:'Yes'},
-        {value:'with_approval',label:'With my approval first'},
-        {value:'no',           label:'No'},
-      ], 'autoPostTrust')}</div>`)}
+${field('If content was automatically captured and posted for you, would you trust it?',
+  `<div class="pills">${pills([
+    {value:'yes',          label:'Yes'},
+    {value:'with_approval',label:'With my approval first'},
+    {value:'no',           label:'No'},
+  ], 'autoPostTrust')}</div>`)}
 
-    ${field('How do you currently manage logistics?',
-      sel('logisticsMgmt', [
-        {value:'manager_handles', label:'Manager handles everything'},
-        {value:'i_handle',        label:'I handle it all myself'},
-        {value:'mixed',           label:'Mixed depending on situation'},
-        {value:'chaos',           label:'Honestly it is chaos'},
-      ]))}
+${field('Where do you currently track your bookings and upcoming gigs?',
+  sel('bookingTracking', [
+    {value:'spreadsheet',    label:'Spreadsheet'},
+    {value:'notes_app',      label:'Notes app'},
+    {value:'manager_handles',label:'My manager handles it'},
+    {value:'email_only',     label:'Just my email'},
+    {value:'memory',         label:'Mostly my memory'},
+    {value:'dedicated_tool', label:'A dedicated tool'},
+  ]))}
 
-    ${field('What is the last logistical thing that went wrong?',
-      txtArea('logisticsFail', 'Driver, hotel, flight...', 2))}
+${field('How do you manage logistics right now?',
+  sel('logisticsMgmt', [
+    {value:'manager_handles',label:'Manager handles everything'},
+    {value:'i_handle',       label:'I handle it all myself'},
+    {value:'mixed',          label:'Mixed depending on situation'},
+    {value:'chaos',          label:'Honestly it is chaos'},
+  ]))}
 
-    <div class="nav-row">
-      <button class="btn" onclick="back()">Back</button>
-      <button class="btn btn-primary" onclick="next()">Continue</button>
-    </div>`;
+${field('What is the last logistical thing that went wrong?',
+  txtArea('logisticsFail', 'Driver, hotel, flight...', 2))}
+
+<div class="nav-row">
+  <button class="btn" onclick="back()">Back</button>
+  <button class="btn btn-primary" onclick="next()">Continue</button>
+</div>`;
+```
+
 }
 
 function stepBigQ() {
-  return `
-    <h2 class="step-title">The big question</h2>
-    <p class="step-subtitle">Take your time here.</p>
+return `
+<h2 class="step-title">The big question</h2>
+<p class="step-subtitle">Take your time here.</p>
 
-    ${field('If I could only build ONE thing for you in the next 60 days, what would it be?',
-      txtArea('killerFeature', 'Take your time with this one...', 3))}
+```
+${field('If you had a silent ops partner running in the background — what would you most want it catching for you?',
+  txtArea('silentOpsWant', 'Missed follow-ups, nearby gig opportunities, fee gaps, content gaps...', 3))}
 
-    ${field('Which category does that fall into?',
-      sel('killerCat', [
-        {value:'booking',   label:'Getting booked'},
-        {value:'fees',      label:'Raising fees'},
-        {value:'content',   label:'Content and social'},
-        {value:'sound',     label:'Sound and identity'},
-        {value:'logistics', label:'Logistics and travel'},
-        {value:'data',      label:'Data and visibility'},
-        {value:'other',     label:'Something else'},
-      ]))}
+${field('If I could only build ONE thing for you in the next 60 days, what would it be?',
+  txtArea('killerFeature', 'Take your time with this one...', 3))}
 
-    ${field('Why that and not the others?',
-      txtArea('killerWhy', 'What makes it the priority?', 2))}
+${field('Which category does that fall into?',
+  sel('killerCat', [
+    {value:'booking',   label:'Getting booked'},
+    {value:'fees',      label:'Raising fees'},
+    {value:'content',   label:'Content and social'},
+    {value:'sound',     label:'Sound and identity'},
+    {value:'logistics', label:'Logistics and travel'},
+    {value:'data',      label:'Data and visibility'},
+    {value:'other',     label:'Something else'},
+  ]))}
 
-    ${field('If this worked perfectly, what would it be worth per month?',
-      sel('monthlyVal', MONTHLY_VALS))}
+${field('Why that and not the others?',
+  txtArea('killerWhy', 'What makes it the priority?', 2))}
 
-    ${field('Would you pay personally or expect management to cover it?',
-      `<div class="pills">${pills([
-        {value:'me',      label:'I would pay'},
-        {value:'manager', label:'Management should pay'},
-        {value:'either',  label:'Either'},
-        {value:'unsure',  label:'Not sure'},
-      ], 'whoPays')}</div>`)}
+${field('If this worked perfectly, what would it be worth per month?',
+  sel('monthlyVal', MONTHLY_VALS))}
 
-    ${isManaged() ? field("If your manager was paying for this tool, would you even know it existed?",
-      `<div class="pills">${pills([
-        {value:'yes',         label:'Yes'},
-        {value:'maybe',       label:'Maybe'},
-        {value:'probably_not',label:'Probably not'},
-      ], 'mgrPayAwareness')}</div>`) : ''}
+${field('Would you pay personally or expect management to cover it?',
+  `<div class="pills">${pills([
+    {value:'me',      label:'I would pay'},
+    {value:'manager', label:'Management should pay'},
+    {value:'either',  label:'Either'},
+    {value:'unsure',  label:'Not sure'},
+  ], 'whoPays')}</div>`)}
 
-    <div class="nav-row">
-      <button class="btn" onclick="back()">Back</button>
-      <button class="btn btn-primary" onclick="next()" ${!formData.killerFeature ? 'disabled' : ''}>Continue</button>
-    </div>`;
+${isManaged() ? field('If your manager was paying for this tool, would you even know it existed?',
+  `<div class="pills">${pills([
+    {value:'yes',         label:'Yes'},
+    {value:'maybe',       label:'Maybe'},
+    {value:'probably_not',label:'Probably not'},
+  ], 'mgrPayAwareness')}</div>`) : ''}
+
+<div class="nav-row">
+  <button class="btn" onclick="back()">Back</button>
+  <button class="btn btn-primary" onclick="next()" ${!formData.killerFeature ? 'disabled' : ''}>Continue</button>
+</div>`;
+```
+
 }
 
 function stepFuture() {
-  return `
-    <h2 class="step-title">Future state</h2>
-    <p class="step-subtitle">Last two questions.</p>
+return `
+<h2 class="step-title">Future state</h2>
+<p class="step-subtitle">Last two questions.</p>
 
-    ${field('What would your career look like if everything worked perfectly?',
-      txtArea('perfectVision', 'More gigs, better gigs, higher fees, less stress...', 3))}
+```
+${field('What would your career look like if everything worked perfectly?',
+  txtArea('perfectVision', 'More gigs, better gigs, higher fees, less stress...', 3))}
 
-    ${field('What does winning actually mean for you right now?',
-      txtArea('winningMeans', 'Be honest...', 3))}
+${field('What does winning actually mean for you right now?',
+  txtArea('winningMeans', 'Be honest...', 3))}
 
-    <div class="nav-row">
-      <button class="btn" onclick="back()">Back</button>
-      <button class="btn btn-primary" id="submit-btn" onclick="submitSurvey()"
-        ${!formData.perfectVision ? 'disabled' : ''}>Submit</button>
-    </div>`;
+<div class="nav-row">
+  <button class="btn" onclick="back()">Back</button>
+  <button class="btn btn-primary" id="submit-btn" onclick="submitSurvey()"
+    ${!formData.perfectVision ? 'disabled' : ''}>Submit</button>
+</div>`;
+```
+
 }
 
 const STEPS = [
-  stepProfile, stepCareer, stepManagement, stepRanking,
-  stepSound, stepBooking, stepPricing, stepContent, stepBigQ, stepFuture
+stepProfile, stepBackground, stepCareer, stepManagement, stepRanking,
+stepSound, stepBooking, stepPricing, stepContent, stepBigQ, stepFuture
 ];
 
-// ─── NAVIGATION ──────────────────────────────────────────────────────────────
 function render() {
-  document.getElementById('step-counter').textContent = `${step + 1} of ${TOTAL_STEPS}`;
-  document.getElementById('progress-fill').style.width = `${((step + 1) / TOTAL_STEPS) * 100}%`;
-  document.getElementById('step-content').innerHTML = STEPS[step]();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+document.getElementById(‘step-counter’).textContent = `${step + 1} of ${TOTAL_STEPS}`;
+document.getElementById(‘progress-fill’).style.width = `${((step + 1) / TOTAL_STEPS) * 100}%`;
+document.getElementById(‘step-content’).innerHTML = STEPS[step]();
+window.scrollTo({ top: 0, behavior: ‘smooth’ });
 }
 
-function next() {
-  if (step < TOTAL_STEPS - 1) { step++; render(); }
-}
-function back() {
-  if (step > 0) { step--; render(); }
-}
+function next() { if (step < TOTAL_STEPS - 1) { step++; render(); } }
+function back() { if (step > 0) { step–; render(); } }
 
-// ─── SUBMIT ──────────────────────────────────────────────────────────────────
 async function submitSurvey() {
-  const btn = document.getElementById('submit-btn');
-  if (btn) { btn.textContent = 'Submitting...'; btn.disabled = true; }
-
-  try {
-    const res = await fetch('/api/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    const json = await res.json();
-    if (!json.success) throw new Error(json.error || 'Failed');
-
-    document.querySelector('.shell').innerHTML = `
-      <div class="done-screen">
-        <div class="done-icon">✓</div>
-        <h2>Thanks, ${formData.djName || 'you'}.</h2>
-        <p>Your responses have been recorded. We will be in touch.</p>
-      </div>`;
-  } catch (err) {
-    console.error(err);
-    if (btn) { btn.textContent = 'Submit'; btn.disabled = false; }
-    alert('Something went wrong. Please try again.');
-  }
+const btn = document.getElementById(‘submit-btn’);
+if (btn) { btn.textContent = ‘Submitting…’; btn.disabled = true; }
+try {
+const res = await fetch(’/api/submit’, {
+method: ‘POST’,
+headers: { ‘Content-Type’: ‘application/json’ },
+body: JSON.stringify(formData),
+});
+const json = await res.json();
+if (!json.success) throw new Error(json.error || ‘Failed’);
+document.querySelector(’.shell’).innerHTML = ` <div class="done-screen"> <div class="done-icon">&#10003;</div> <h2>Thanks, ${formData.djName || 'you'}.</h2> <p>Your responses have been recorded. We will be in touch.</p> </div>`;
+} catch (err) {
+console.error(err);
+if (btn) { btn.textContent = ‘Submit’; btn.disabled = false; }
+alert(‘Something went wrong. Please try again.’);
+}
 }
 
-// ─── INIT ────────────────────────────────────────────────────────────────────
 render();
 </script>
+
 </body>
 </html>
